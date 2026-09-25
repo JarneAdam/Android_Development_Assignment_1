@@ -55,7 +55,7 @@ fun MyToDoLayout(toDo: ToDo, modifier: Modifier = Modifier) {
             // Using a default icon for the image, as per instructions "kan je een afbeelding importeren..."
             // You can replace R.drawable.ic_launcher_foreground with your actual imported image
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.todo_image),
                 contentDescription = "ToDo Image",
                 modifier = Modifier
                     .size(64.dp)
