@@ -1,5 +1,13 @@
 package be.vives.jarne.assignment_1.models
 
-class User {
-    // TODO: Vul deze klasse verder aan met de velden die eventueel nog in de opgave staan.
+data class User(
+    var id: Int,
+    var userName: String,
+    var firstName: String,
+    var lastName: String,
+    var password: String,
+    var isActive: Boolean
+) {
+    // Empty constructor
+    constructor() : this(0, "", "", "", "", false)
 }
