@@ -5,9 +5,10 @@ import java.util.Date
 object MockupToDo {
     fun getUsers(): List<User> {
         return listOf(
-            User(1, "jdoe", "John", "Doe", "pass123", true),
-            User(2, "asmith", "Alice", "Smith", "pass123", true),
-            User(3, "bwilliams", "Bob", "Williams", "pass123", false)
+            User(1, "dhostens", "Dirk", "Hostens", "pass123", true),
+            User(2, "jdoe", "John", "Doe", "pass123", true),
+            User(3, "asmith", "Alice", "Smith", "pass123", true),
+            User(4, "bwilliams", "Bob", "Williams", "pass123", false)
         )
     }
 
@@ -16,13 +17,13 @@ object MockupToDo {
         return listOf(
             ToDo(
                 1,
-                "Setup project",
-                "Create a new Android Studio project with Compose",
+                "Finish detail ToDo",
+                "Add extra fields like assigned user, time estamated, ... to the ToDo detail screen",
+                users[1],
+                Date(),
                 users[0],
                 Date(),
-                null,
-                null,
-                4,
+                20,
                 false, false, false, false
             ),
             ToDo(

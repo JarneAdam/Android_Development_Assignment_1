@@ -18,9 +18,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import be.vives.jarne.assignment_1.models.MockupToDo
 import be.vives.jarne.assignment_1.models.ToDo
 import be.vives.jarne.assignment_1.ui.theme.Assignment_1Theme
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,66 +55,85 @@ fun MyToDoLayout(toDo: ToDo, modifier: Modifier = Modifier) {
         // Top section with image, number, and status
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
         ) {
-            // Using a default icon for the image, as per instructions "kan je een afbeelding importeren..."
-            // You can replace R.drawable.ic_launcher_foreground with your actual imported image
             Image(
                 painter = painterResource(id = R.drawable.todo_image),
                 contentDescription = "ToDo Image",
-                modifier = Modifier
-                    .size(64.dp)
-                    .padding(end = 16.dp)
+                modifier = Modifier.size(120.dp)
             )
-            Column {
-                Text(text = "ToDo: ${toDo.number}", fontWeight = FontWeight.Bold)
-                Text(text = "Status: ${toDo.statusDescription}")
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "#${toDo.number}", 
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 56.sp
+                )
+                Text(
+                    text = toDo.statusDescription,
+                    fontFamily = FontFamily.Cursive,
+                    fontSize = 36.sp
+                )
             }
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
 
         // Red divider
-        HorizontalDivider(color = Color.Red, thickness = 2.dp)
-
-        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider(color = Color.Red, thickness = 1.dp, modifier = Modifier.padding(bottom = 16.dp))
 
         // Title and Description
-        Text(text = "Title:", fontWeight = FontWeight.Bold)
-        Text(text = toDo.title, modifier = Modifier.padding(bottom = 8.dp))
+        Text(
+            text = toDo.title,
+            fontSize = 22.sp,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
 
-        Text(text = "Description:", fontWeight = FontWeight.Bold)
-        Text(text = toDo.description, modifier = Modifier.padding(bottom = 16.dp))
+        Text(
+            text = toDo.description,
+            fontSize = 22.sp,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        val assignedUserText = if (toDo.assignedToUser != null) {
+            "Assigned to ${toDo.assignedToUser?.firstName} ${toDo.assignedToUser?.lastName}"
+        } else {
+            "Not assigned yet"
+        }
+        Text(
+            text = assignedUserText,
+            fontSize = 22.sp,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
 
         // Time estimated and remaining
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column {
-                Text(text = "Time Estimated:", fontWeight = FontWeight.Bold)
-                Text(text = "${toDo.timeEstimated} hrs")
-            }
-            Column {
-                Text(text = "Time Remaining:", fontWeight = FontWeight.Bold)
-                Text(text = "${toDo.timeRemaining} hrs")
-            }
-        }
+        Text(
+            text = "Time estimated ${toDo.timeEstimated} hours",
+            fontSize = 22.sp,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        val remainingFormatted = java.lang.String.format(Locale.US, "%.2f", toDo.timeRemaining.toFloat())
+        Text(
+            text = "Time remaining $remainingFormatted hours",
+            fontSize = 22.sp,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
 
         // Boxed area for boolean flags
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(2.dp, Color.Gray)
+                .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
                 .padding(16.dp)
         ) {
             Column {
-                SwitchRow(label = "Analysis Done", checked = toDo.analysisDone)
-                SwitchRow(label = "Development Done", checked = toDo.developmentDone)
-                SwitchRow(label = "Review & Testing Done", checked = toDo.reviewAndTestingDone)
-                SwitchRow(label = "Acceptance Done", checked = toDo.acceptanceDone)
+                SwitchRow(label = "Analysis done?", checked = toDo.analysisDone)
+                SwitchRow(label = "Development done?", checked = toDo.developmentDone)
+                SwitchRow(label = "Review & testing done?", checked = toDo.reviewAndTestingDone)
+                SwitchRow(label = "Acceptance done?", checked = toDo.acceptanceDone)
             }
         }
     }
@@ -119,11 +143,24 @@ fun MyToDoLayout(toDo: ToDo, modifier: Modifier = Modifier) {
 fun SwitchRow(label: String, checked: Boolean) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
     ) {
-        Text(text = label)
-        Switch(checked = checked, onCheckedChange = null)
+        Text(
+            text = label, 
+            fontSize = 18.sp,
+            modifier = Modifier.weight(1.5f),
+            textAlign = TextAlign.End
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Switch(checked = checked, onCheckedChange = null)
+        }
     }
 }
 
