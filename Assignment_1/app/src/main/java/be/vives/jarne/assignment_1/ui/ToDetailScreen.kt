@@ -20,15 +20,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.vives.jarne.assignment_1.R
-import be.vives.jarne.assignment_1.models.MockupToDo
 import be.vives.jarne.assignment_1.models.ToDo
-import be.vives.jarne.assignment_1.ui.theme.Assignment_1Theme
 import be.vives.jarne.assignment_1.utility.Utility
 
 @Composable
@@ -128,20 +123,5 @@ fun ToDetailScreen(toDo: ToDo, modifier: Modifier = Modifier) {
                 SwitchRow(label = "Acceptance done?", checked = toDo.acceptanceDone)
             }
         }
-    }
-}
-
-class ToDoPreviewParameterProvider : PreviewParameterProvider<ToDo> {
-    private val toDos = MockupToDo.getToDos()
-    override val values = toDos.asSequence()
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ToDetailScreenPreview(
-    @PreviewParameter(ToDoPreviewParameterProvider::class, limit = 3) toDo: ToDo,
-) {
-    Assignment_1Theme {
-        ToDetailScreen(toDo)
     }
 }
